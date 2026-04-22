@@ -55,8 +55,20 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.62 0.15 230);
+  --primary-foreground: oklch(1 0 0);
+
+  /* Dilitech brand tokens */
+  --dilitech-primary: #02a3da;
+  --dilitech-primary-light: #33b5e3;
+  --dilitech-primary-dark: #0282ae;
+  --dilitech-gradient: linear-gradient(135deg, #02a3da 0%, #0282ae 100%);
+  --dilitech-gradient-hover: linear-gradient(135deg, #33b5e3 0%, #02a3da 100%);
+
+  /* Glassmorphism tokens */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 16px;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -90,8 +102,13 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: oklch(0.67 0.15 230);
+  --primary-foreground: oklch(1 0 0);
+
+  /* Glassmorphism tokens (dark) */
+  --glass-bg: rgba(0, 0, 0, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 16px;
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -126,5 +143,12 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
