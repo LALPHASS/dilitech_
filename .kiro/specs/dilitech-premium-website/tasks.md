@@ -26,19 +26,19 @@ Build a premium, immersive single-page website for Dilitech (computer retail, Ma
     - Update `<Metadata>` with Dilitech title and description (French)
     - _Requirements: 11.3, 11.4_
 
-- [ ] 2. Create data layer and utility modules
-  - [ ] 2.1 Create lib/constants.ts with all static data
+- [x] 2. Create data layer and utility modules
+  - [x] 2.1 Create lib/constants.ts with all static data
     - Define and export typed interfaces: `NavLink`, `StoryPhase`, `BrandCard`, `UsageCategory`, `ServiceCard`, `Testimonial`
     - Export `NAV_LINKS`, `STORY_PHASES`, `BRAND_CARDS`, `USAGE_CATEGORIES`, `SERVICES`, `TESTIMONIALS` arrays with French content as specified in the design
     - _Requirements: 2.4, 4.2, 5.2, 6.2, 7.2, 8.1_
 
-  - [ ] 2.2 Create lib/animations.ts with GSAP configuration
+  - [x] 2.2 Create lib/animations.ts with GSAP configuration
     - Register GSAP ScrollTrigger plugin at module level
     - Export `ANIMATION_DEFAULTS` object with `fadeInUp`, `fadeOut`, `stagger`, and `heroPin` configs as defined in the design
     - Export helper function to create reduced-motion-aware animations using `gsap.matchMedia()`
     - _Requirements: 4.1, 14.3, 14.4_
 
-  - [ ] 2.3 Create custom hooks
+  - [x] 2.3 Create custom hooks
     - Create `hooks/use-loading-progress.ts`: tracks font, image, and 3D model loading state, returns `progress` (0–100) and `isComplete` boolean
     - Create `hooks/use-scroll-animations.ts`: wraps GSAP ScrollTrigger setup with `gsap.context()` for proper cleanup on unmount
     - Create `hooks/use-media-query.ts`: returns boolean for a given media query string (used for responsive breakpoints)
@@ -57,18 +57,18 @@ Build a premium, immersive single-page website for Dilitech (computer retail, Ma
     - Minimum 100 iterations using fast-check
     - **Validates: Requirements 6.5**
 
-- [ ] 3. Checkpoint — Verify foundation
+- [x] 3. Checkpoint — Verify foundation
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 4. Build leaf UI components
-  - [ ] 4.1 Create components/theme-toggle.tsx
+- [x] 4. Build leaf UI components
+  - [x] 4.1 Create components/theme-toggle.tsx
     - Use `useTheme()` from `next-themes` to toggle between light and dark
     - Render Sun/Moon icons from Lucide React
     - Only render after mount (check `mounted` state) to avoid hydration mismatch
     - Smooth icon transition via CSS
     - _Requirements: 11.1, 11.2, 11.3, 11.4_
 
-  - [ ] 4.2 Create components/loading-screen.tsx
+  - [x] 4.2 Create components/loading-screen.tsx
     - Accept `onLoadingComplete` callback prop
     - Display Dilitech logo (`logo.png`) with fade-in animation
     - Show animated progress bar reflecting actual loading progress from `use-loading-progress` hook
@@ -83,7 +83,7 @@ Build a premium, immersive single-page website for Dilitech (computer retail, Ma
     - Minimum 100 iterations using fast-check
     - **Validates: Requirements 1.4**
 
-  - [ ] 4.4 Create components/navbar.tsx
+  - [x] 4.4 Create components/navbar.tsx
     - Fixed position with glassmorphism: `backdrop-blur-xl bg-white/10 dark:bg-black/20 border-b border-white/10`
     - Logo on left, centered nav links (from `NAV_LINKS`), gradient "Contact" CTA on right
     - Integrate `ThemeToggle` component in the navbar
@@ -92,18 +92,18 @@ Build a premium, immersive single-page website for Dilitech (computer retail, Ma
     - Close mobile menu on link click, on Escape key, trap focus when open
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 11.1_
 
-  - [ ] 4.5 Create 3D viewer components
+  - [x] 4.5 Create 3D viewer components
     - Create `components/computer-model.tsx`: uses `useGLTF('/animation.glb')` from Drei, idle Y-axis rotation via `useFrame` when phase is 0, respects `reducedMotion` prop, scales to 0.7 on mobile
     - Create `components/camera-controller.tsx`: uses `useFrame` + `THREE.Vector3.lerp` for smooth camera transitions driven by `targetPosition` and `targetLookAt` props
     - Create `components/three-d-viewer.tsx`: R3F `<Canvas>` with `<Suspense>` fallback, `<Environment preset="studio" />` + directional light, WebGL detection (fallback to static image if unsupported), `<ErrorBoundary>` wrapper
     - The ThreeDViewer must be exported as a dynamic import wrapper with `ssr: false`
     - _Requirements: 3.2, 3.3, 3.6, 3.7, 12.1, 12.3, 12.4, 13.3_
 
-- [ ] 5. Checkpoint — Verify leaf components
+- [x] 5. Checkpoint — Verify leaf components
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 6. Build section components
-  - [ ] 6.1 Create components/hero-section.tsx
+- [x] 6. Build section components
+  - [x] 6.1 Create components/hero-section.tsx
     - Occupy 100vh on initial load with `id="accueil"`
     - Integrate `ThreeDViewer` (dynamically imported) centered in the section
     - Implement `ScrollStoryOverlay`: GSAP ScrollTrigger pins the hero, `scrub: 1`, `end: "+=300%"`
@@ -114,7 +114,7 @@ Build a premium, immersive single-page website for Dilitech (computer retail, Ma
     - Respect reduced motion: skip animations, show static camera position
     - _Requirements: 3.1, 3.2, 3.4, 3.5, 4.1, 4.2, 4.3, 4.4, 4.5, 14.3_
 
-  - [ ] 6.2 Create components/product-grid.tsx
+  - [x] 6.2 Create components/product-grid.tsx
     - Section with `id="produits"`, 3-column responsive grid (`grid-cols-1 md:grid-cols-3`)
     - Render `BRAND_CARDS` data: Next.js `<Image>` with `sizes` prop, brand name, French description, category tags
     - GSAP entrance: `fade-in-up` with `stagger: 0.15` on viewport entry via ScrollTrigger
@@ -122,7 +122,7 @@ Build a premium, immersive single-page website for Dilitech (computer retail, Ma
     - Use `gsap.context()` for cleanup
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 14.2_
 
-  - [ ] 6.3 Create components/conversion-section.tsx
+  - [x] 6.3 Create components/conversion-section.tsx
     - Title: "Obtenez la machine idéale pour vos besoins"
     - Render selectable usage category chips from `USAGE_CATEGORIES` with toggle selection state
     - "Demander une recommandation" gradient CTA button
@@ -130,14 +130,14 @@ Build a premium, immersive single-page website for Dilitech (computer retail, Ma
     - GSAP fade-in on scroll entry, cleanup with `gsap.context()`
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6_
 
-  - [ ] 6.4 Create components/services-section.tsx
+  - [x] 6.4 Create components/services-section.tsx
     - Section with `id="services"`, 3-column grid stacking vertically below 768px
     - Render `SERVICES` data with Lucide icons (Wrench, Headphones, ShieldCheck), title, description
     - GSAP staggered fade-in: `stagger: 0.2` on viewport entry
     - Use `gsap.context()` for cleanup
     - _Requirements: 7.1, 7.2, 7.3, 7.4_
 
-  - [ ] 6.5 Create components/testimonials-section.tsx
+  - [x] 6.5 Create components/testimonials-section.tsx
     - Section with `id="temoignages"`, carousel-style component
     - Render 4 `TESTIMONIALS` with circular cropped photos (`rounded-full`), customer name, French review text
     - Auto-advance every 5 seconds, manual navigation dots
@@ -145,13 +145,13 @@ Build a premium, immersive single-page website for Dilitech (computer retail, Ma
     - Use `gsap.context()` for cleanup
     - _Requirements: 8.1, 8.2, 8.3, 8.4_
 
-  - [ ] 6.6 Create components/about-section.tsx
+  - [x] 6.6 Create components/about-section.tsx
     - Section with `id="a-propos"`, short company description in French
     - Clean layout: `py-24 max-w-3xl mx-auto` with generous whitespace
     - GSAP fade-in on scroll entry, cleanup with `gsap.context()`
     - _Requirements: 9.1, 9.2, 9.3_
 
-  - [ ] 6.7 Create components/footer.tsx
+  - [x] 6.7 Create components/footer.tsx
     - Multi-column layout: Map | Contact | Social | Hours
     - Embedded Google Maps iframe for Dilitech location in Mali
     - WhatsApp: +223 71 92 71 98, email link
@@ -166,11 +166,11 @@ Build a premium, immersive single-page website for Dilitech (computer retail, Ma
     - Minimum 100 iterations using fast-check
     - **Validates: Requirements 5.2, 7.2, 8.4**
 
-- [ ] 7. Checkpoint — Verify section components
+- [x] 7. Checkpoint — Verify section components
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 8. Wire page orchestrator and final integration
-  - [ ] 8.1 Rewrite app/page.tsx as client component orchestrator
+- [-] 8. Wire page orchestrator and final integration
+  - [x] 8.1 Rewrite app/page.tsx as client component orchestrator
     - Add `"use client"` directive
     - Manage `isLoaded` state to control `LoadingScreen` visibility
     - Compose all sections in order: `LoadingScreen` → `Navbar` → `HeroSection` → `ProductGrid` → `ConversionSection` → `ServicesSection` → `TestimonialsSection` → `AboutSection` → `Footer`
@@ -202,7 +202,7 @@ Build a premium, immersive single-page website for Dilitech (computer retail, Ma
     - Test WebGL fallback: mock WebGL as unavailable, verify static fallback renders
     - _Requirements: 2.4, 5.2, 6.2, 7.2, 8.1, 10.1, 12.4_
 
-- [ ] 9. Final checkpoint — Ensure all tests pass
+- [x] 9. Final checkpoint — Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
