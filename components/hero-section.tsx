@@ -15,7 +15,6 @@ export function HeroSection() {
     if (reducedMotion || !sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Pin the hero and scrub through phases
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
@@ -37,53 +36,77 @@ export function HeroSection() {
     <section
       ref={sectionRef}
       id="accueil"
-      className="relative w-full h-screen overflow-hidden"
+      className="relative w-full h-screen overflow-hidden bg-[#0a0a0a]"
     >
-      {/* 3D Viewer — fills the section */}
-      <div className="absolute inset-0">
-        <ThreeDViewer currentPhase={currentPhase} reducedMotion={reducedMotion} />
+      {/* Ambient light effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-25"
+          style={{
+            background: "radial-gradient(ellipse at center, rgba(2, 163, 218, 0.5) 0%, rgba(2, 163, 218, 0.1) 40%, transparent 70%)",
+            filter: "blur(80px)",
+          }}
+        />
+        <div
+          className="absolute bottom-0 right-0 w-[500px] h-[300px] opacity-30"
+          style={{
+            background: "radial-gradient(ellipse at bottom right, rgba(2, 130, 174, 0.3) 0%, transparent 70%)",
+            filter: "blur(60px)",
+          }}
+        />
       </div>
 
-      {/* Text overlay */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center pointer-events-none">
-        <div key={phase.id} className="animate-fade-in max-w-2xl">
-          <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 drop-shadow-lg">
-            {phase.heading}
-          </h1>
-          {phase.description && (
-            <p className="text-base md:text-lg text-foreground/80 mb-8 drop-shadow-md">
-              {phase.description}
-            </p>
-          )}
-        </div>
+      {/* Split layout: Text left, 3D model right */}
+      <div className="relative z-10 h-full flex items-center">
+        <div className="w-full max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          
+          {/* Left side - Text content */}
+          <div className="text-left pt-40 lg:pt-12">
+            <div key={phase.id} className="animate-fade-in">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight">
+                {phase.heading}
+              </h1>
+              {phase.description && (
+                <p className="text-lg md:text-xl text-white/70 mb-8 max-w-lg">
+                  {phase.description}
+                </p>
+              )}
 
-        {/* CTA buttons — only in intro phase */}
-        {currentPhase === 0 && (
-          <div className="flex flex-col sm:flex-row gap-4 pointer-events-auto animate-fade-in">
-            <a
-              href="#produits"
-              onClick={(e) => {
-                e.preventDefault();
-                document.querySelector("#produits")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="px-8 py-3 rounded-md text-sm font-medium text-white
-                cursor-pointer transition-opacity duration-200 hover:opacity-90"
-              style={{ background: "var(--dilitech-gradient)" }}
-            >
-              Explorer
-            </a>
-            <a
-              href="https://wa.me/22371927198"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-3 rounded-md text-sm font-medium text-white
-                cursor-pointer transition-opacity duration-200 hover:opacity-90"
-              style={{ background: "var(--dilitech-gradient)" }}
-            >
-              Acheter maintenant
-            </a>
+              {/* CTA buttons */}
+              {currentPhase === 0 && (
+                <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
+                  <a
+                    href="#produits"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.querySelector("#produits")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="px-8 py-3 rounded-full text-sm font-medium text-white text-center
+                      cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-[0_0_30px_rgba(2,163,218,0.4)]"
+                    style={{ background: "var(--dilitech-gradient)" }}
+                  >
+                    Explorer
+                  </a>
+                  <a
+                    href="https://wa.me/22371927198"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-8 py-3 rounded-full text-sm font-medium text-white/90 border border-white/20 text-center
+                      cursor-pointer transition-all duration-200 hover:bg-white/10 hover:border-white/40
+                      backdrop-blur-sm"
+                  >
+                    Acheter maintenant
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
-        )}
+
+          {/* Right side - 3D Viewer */}
+          <div className="relative h-[400px] md:h-[500px] lg:h-[600px]">
+            <ThreeDViewer currentPhase={currentPhase} reducedMotion={reducedMotion} />
+          </div>
+        </div>
       </div>
     </section>
   );

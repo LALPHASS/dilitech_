@@ -30,6 +30,7 @@ export interface BrandCard {
   image: string;
   description: string;
   tags: string[];
+  models: string[];
 }
 
 export interface UsageCategory {
@@ -100,6 +101,7 @@ export const BRAND_CARDS: BrandCard[] = [
     description:
       "Des ordinateurs professionnels conçus pour la performance et la fiabilité au quotidien.",
     tags: ["Professionnel", "Performance"],
+    models: ["EliteBook", "Envy", "Pavilion", "ProBook", "Spectre"],
   },
   {
     name: "Lenovo",
@@ -107,6 +109,7 @@ export const BRAND_CARDS: BrandCard[] = [
     description:
       "L'innovation au service de la productivité avec des machines robustes et polyvalentes.",
     tags: ["Innovation", "Fiabilité"],
+    models: ["ThinkPad", "IdeaPad", "Legion", "Yoga", "ThinkBook"],
   },
   {
     name: "Mac",
@@ -114,6 +117,7 @@ export const BRAND_CARDS: BrandCard[] = [
     description:
       "L'excellence créative avec un écosystème premium et un design inégalé.",
     tags: ["Créativité", "Premium"],
+    models: ["MacBook Air", "MacBook Pro", "iMac", "Mac Mini", "Mac Studio"],
   },
 ];
 
@@ -128,21 +132,21 @@ export const USAGE_CATEGORIES: UsageCategory[] = [
 export const SERVICES: ServiceCard[] = [
   {
     icon: Wrench,
-    title: "Maintenance",
+    title: "Réparation & Maintenance",
     description:
-      "Un service de maintenance préventive et corrective pour garantir la longévité de votre matériel.",
+      "Diagnostic rapide et réparation de tous types de pannes : écran, batterie, clavier, carte mère. Votre machine entre de bonnes mains.",
   },
   {
     icon: Headphones,
-    title: "Assistance",
+    title: "Support Technique",
     description:
-      "Une équipe dédiée disponible pour répondre à toutes vos questions et résoudre vos problèmes techniques.",
+      "Une équipe disponible pour vous accompagner : installation de logiciels, configuration, mise à jour et résolution de problèmes.",
   },
   {
     icon: ShieldCheck,
-    title: "Service après-vente d'exception",
+    title: "Garantie & Suivi",
     description:
-      "Un accompagnement personnalisé après votre achat pour une expérience client sans faille.",
+      "Garantie sur toutes nos machines et un suivi personnalisé après achat. Nous restons à vos côtés tout au long de la vie de votre appareil.",
   },
 ];
 

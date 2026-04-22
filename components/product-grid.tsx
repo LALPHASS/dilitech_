@@ -1,32 +1,55 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { BRAND_CARDS } from "@/lib/constants";
-import { gsap, ScrollTrigger, ANIMATION_DEFAULTS } from "@/lib/animations";
+import { gsap, ScrollTrigger } from "@/lib/animations";
+import { Pause, Play } from "lucide-react";
 
 export function ProductGrid() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const totalSlides = BRAND_CARDS.length;
+
+  const goToSlide = useCallback((index: number) => {
+    setActiveIndex(index);
+  }, []);
+
+  const nextSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % totalSlides);
+  }, [totalSlides]);
+
+  // Autoplay
+  useEffect(() => {
+    if (isPlaying) {
+      intervalRef.current = setInterval(nextSlide, 5000);
+    }
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isPlaying, nextSlide]);
+
+  // GSAP entrance animation
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      const cards = sectionRef.current!.querySelectorAll("[data-card]");
-
-      gsap.set(cards, { y: ANIMATION_DEFAULTS.fadeInUp.y, opacity: 0 });
+      gsap.set("[data-animate]", { y: 40, opacity: 0 });
 
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top 80%",
         once: true,
         onEnter: () => {
-          gsap.to(cards, {
+          gsap.to("[data-animate]", {
             y: 0,
             opacity: 1,
-            duration: ANIMATION_DEFAULTS.fadeInUp.duration,
-            ease: ANIMATION_DEFAULTS.fadeInUp.ease,
-            stagger: ANIMATION_DEFAULTS.stagger,
+            duration: 0.8,
+            ease: "power2.out",
+            stagger: 0.15,
           });
         },
       });
@@ -35,56 +58,104 @@ export function ProductGrid() {
     return () => ctx.revert();
   }, []);
 
+  const activeCard = BRAND_CARDS[activeIndex];
+
   return (
     <section
       ref={sectionRef}
       id="produits"
-      className="py-24 px-4 md:px-6 max-w-7xl mx-auto"
+      className="relative w-full bg-[#0a0a0a] overflow-hidden"
     >
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-foreground">
-        Nos Marques
-      </h2>
+      {/* Section header with spacing */}
+      <div className="pt-24 pb-12 px-6 md:px-12 lg:px-24 text-center">
+        <h2 data-animate className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+          Nos Produits
+        </h2>
+        <p data-animate className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto">
+          Découvrez notre sélection premium d&apos;ordinateurs des plus grandes marques mondiales
+        </p>
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {BRAND_CARDS.map((card) => (
+      {/* Image slider - contained width */}
+      <div className="relative w-full max-w-6xl mx-auto h-[80vh] px-6 rounded-2xl overflow-hidden">
+        {BRAND_CARDS.map((card, index) => (
           <div
             key={card.name}
-            data-card
-            className="group rounded-xl overflow-hidden bg-card border border-border
-              cursor-pointer transition-all duration-200
-              hover:scale-[1.03] hover:shadow-2xl"
+            className={`absolute inset-0 transition-opacity duration-700 ease-in-out
+              ${index === activeIndex ? "opacity-100" : "opacity-0 pointer-events-none"}`}
           >
-            <div className="relative aspect-4/3 overflow-hidden">
-              <Image
-                src={card.image}
-                alt={card.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
+            <Image
+              src={card.image}
+              alt={card.name}
+              fill
+              sizes="100vw"
+              className="object-cover"
+              priority={index === 0}
+            />
+            {/* Gradient overlay for text readability */}
+            <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/30 to-transparent" />
+          </div>
+        ))}
 
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-foreground mb-2">
-                {card.name}
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                {card.description}
-              </p>
+        {/* Text overlay - positioned left */}
+        <div className="absolute inset-0 flex items-center justify-start p-8 md:p-16 lg:p-24">
+          <div className="max-w-xl">
+            <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+              {activeCard.name}
+            </h3>
+            <p className="text-lg md:text-xl text-white/80 leading-relaxed mb-6">
+              {activeCard.description}
+            </p>
+            
+            {/* Models */}
+            <div>
+              <p className="text-sm text-white/50 mb-2">Modèles disponibles</p>
               <div className="flex flex-wrap gap-2">
-                {card.tags.map((tag) => (
+                {activeCard.models.map((model) => (
                   <span
-                    key={tag}
-                    className="px-3 py-1 text-xs font-medium rounded-full
-                      bg-primary/10 text-primary"
+                    key={model}
+                    className="px-3 py-1 text-sm font-medium rounded-full
+                      bg-white/5 text-white/70 border border-white/10"
                   >
-                    {tag}
+                    {model}
                   </span>
                 ))}
               </div>
             </div>
           </div>
-        ))}
+        </div>
+
+        {/* Bottom slider controls - Apple style */}
+        <div className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-3">
+          {/* Dots/progress indicators */}
+          <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md rounded-full px-4 py-2.5">
+            {BRAND_CARDS.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  goToSlide(index);
+                  setIsPlaying(false);
+                }}
+                className={`transition-all duration-300 rounded-full cursor-pointer
+                  ${index === activeIndex 
+                    ? "w-8 h-2 bg-white" 
+                    : "w-2 h-2 bg-white/40 hover:bg-white/60"
+                  }`}
+                aria-label={`Aller au slide ${index + 1}`}
+              />
+            ))}
+          </div>
+
+          {/* Play/Pause button */}
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center
+              text-white/80 hover:text-white transition-colors duration-200 cursor-pointer"
+            aria-label={isPlaying ? "Pause" : "Play"}
+          >
+            {isPlaying ? <Pause className="size-4" /> : <Play className="size-4 ml-0.5" />}
+          </button>
+        </div>
       </div>
     </section>
   );

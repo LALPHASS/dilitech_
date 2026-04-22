@@ -1,40 +1,70 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { useLoadingProgress } from "@/hooks/use-loading-progress";
+import { gsap } from "@/lib/animations";
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void;
 }
 
 const MIN_DISPLAY_MS = 1500;
-const FADE_OUT_MS = 800;
 
 export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
   const { progress, isComplete } = useLoadingProgress();
-  const [fadingOut, setFadingOut] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLParagraphElement>(null);
   const mountTimeRef = useRef(0);
   const calledRef = useRef(false);
 
-  // Capture mount time once on mount
+  // Entrance animation
+  useEffect(() => {
+    if (!logoRef.current || !progressRef.current || !textRef.current) return;
+    
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline();
+      tl.fromTo(logoRef.current, 
+        { scale: 0.8, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }
+      )
+      .fromTo(progressRef.current,
+        { width: 0, opacity: 0 },
+        { width: "16rem", opacity: 1, duration: 0.4, ease: "power2.out" },
+        "-=0.3"
+      )
+      .fromTo(textRef.current,
+        { y: 10, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" },
+        "-=0.2"
+      );
+    });
+    
+    return () => ctx.revert();
+  }, []);
+
+  // Capture mount time
   useEffect(() => {
     mountTimeRef.current = performance.now();
   }, []);
 
   const triggerFadeOut = useCallback(() => {
-    if (calledRef.current) return;
+    if (calledRef.current || !containerRef.current) return;
     calledRef.current = true;
-    setFadingOut(true);
-    setTimeout(() => {
-      onLoadingComplete();
-    }, FADE_OUT_MS);
+    
+    gsap.to(containerRef.current, {
+      opacity: 0,
+      duration: 0.6,
+      ease: "power2.inOut",
+      onComplete: onLoadingComplete,
+    });
   }, [onLoadingComplete]);
 
   useEffect(() => {
     if (!isComplete) return;
 
-    // If mountTimeRef hasn't been set yet, use MIN_DISPLAY_MS as fallback
     const mountTime = mountTimeRef.current || performance.now();
     const elapsed = performance.now() - mountTime;
     const remaining = Math.max(0, MIN_DISPLAY_MS - elapsed);
@@ -45,13 +75,12 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-100 flex flex-col items-center justify-center
-        bg-background transition-opacity ${fadingOut ? "opacity-0 pointer-events-none" : "opacity-100"}`}
-      style={{ transitionDuration: `${FADE_OUT_MS}ms` }}
+      ref={containerRef}
+      className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-background"
       aria-live="polite"
       role="status"
     >
-      <div className="animate-fade-in mb-8">
+      <div ref={logoRef} className="mb-8 opacity-0">
         <Image
           src="/logo.png"
           alt="Dilitech"
@@ -62,7 +91,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
         />
       </div>
 
-      <div className="w-64 h-1 rounded-full bg-muted overflow-hidden">
+      <div ref={progressRef} className="h-1 rounded-full bg-muted overflow-hidden opacity-0">
         <div
           className="h-full rounded-full transition-all duration-300 ease-out"
           style={{
@@ -72,7 +101,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
         />
       </div>
 
-      <p className="mt-4 text-sm text-muted-foreground">
+      <p ref={textRef} className="mt-4 text-sm text-muted-foreground opacity-0">
         Chargement{progress < 100 ? `… ${progress}%` : " terminé"}
       </p>
     </div>
