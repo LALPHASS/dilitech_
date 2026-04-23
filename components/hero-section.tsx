@@ -5,6 +5,7 @@ import { ThreeDViewer } from "./three-d-viewer-dynamic";
 import { STORY_PHASES } from "@/lib/constants";
 import { gsap, ScrollTrigger, getPhaseFromProgress } from "@/lib/animations";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import ShinyText from "./ShinyText";
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -63,8 +64,14 @@ export function HeroSection() {
           {/* Left side - Text content */}
           <div className="text-left pt-40 lg:pt-12">
             <div key={phase.id} className="animate-fade-in">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight">
-                {phase.heading}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight">
+                <ShinyText 
+                  text={phase.heading}
+                  color="#b5b5b5"
+                  shineColor="#ffffff"
+                  speed={3}
+                  spread={90}
+                />
               </h1>
               {phase.description && (
                 <p className="text-lg md:text-xl text-white/70 mb-8 max-w-lg">

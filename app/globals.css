@@ -61,8 +61,8 @@
   /* Dilitech brand tokens */
   --dilitech-primary: #02a3da;
   --dilitech-primary-light: #33b5e3;
-  --dilitech-primary-dark: #0282ae;
-  --dilitech-gradient: linear-gradient(135deg, #02a3da 0%, #0282ae 100%);
+  --dilitech-primary-dark: #015a7a;
+  --dilitech-gradient: linear-gradient(135deg, #02a3da 0%, #015a7a 100%);
   --dilitech-gradient-hover: linear-gradient(135deg, #33b5e3 0%, #02a3da 100%);
 
   /* Glassmorphism tokens */

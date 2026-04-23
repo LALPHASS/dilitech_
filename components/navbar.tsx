@@ -101,7 +101,7 @@ export function Navbar() {
             {/* Logo + brand name */}
             <a href="#accueil" className="flex items-center gap-2 shrink-0">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Dilitech"
                 width={28}
                 height={28}

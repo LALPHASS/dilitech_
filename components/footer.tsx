@@ -173,7 +173,7 @@ export function Footer() {
         {/* Top section with logo */}
         <div ref={logoRef} className="flex flex-col items-center mb-10">
           <Image
-            src="/logo.png"
+            src="/logo.webp"
             alt="Dilitech"
             width={120}
             height={45}

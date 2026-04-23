@@ -82,7 +82,7 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
     >
       <div ref={logoRef} className="mb-8 opacity-0">
         <Image
-          src="/logo.png"
+          src="/logo.webp"
           alt="Dilitech"
           width={160}
           height={60}
