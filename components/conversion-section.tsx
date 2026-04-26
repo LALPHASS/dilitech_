@@ -3,6 +3,8 @@
 import { useRef, useEffect, useState } from "react";
 import { MessageCircle, Sparkles, Send } from "lucide-react";
 import { gsap, ScrollTrigger } from "@/lib/animations";
+import { FloatingInput, FloatingTextarea } from "./ui/floating-input";
+import { PremiumCTAButton } from "./ui/premium-cta-button";
 
 export function ConversionSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -194,40 +196,22 @@ export function ConversionSection() {
         </p>
 
         {/* Form inputs */}
-        <div ref={formRef} className="space-y-4 mb-8">
+        <div ref={formRef} className="space-y-5 mb-8">
           {/* Work description */}
-          <div className="text-left">
-            <label htmlFor="work" className="block text-sm text-white/60 mb-2">
-              Décrivez le travail que vous allez faire
-            </label>
-            <textarea
-              id="work"
-              value={workDescription}
-              onChange={(e) => setWorkDescription(e.target.value)}
-              placeholder="Ex: Développement web, montage vidéo 4K, comptabilité..."
-              rows={3}
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white
-                placeholder:text-white/30 focus:outline-none focus:border-[#02a3da]/50 focus:bg-white/8
-                transition-all duration-300 resize-none"
-            />
-          </div>
+          <FloatingTextarea
+            label="Décrivez le travail que vous allez faire"
+            value={workDescription}
+            onChange={(e) => setWorkDescription(e.target.value)}
+            rows={3}
+          />
 
           {/* Budget */}
-          <div className="text-left">
-            <label htmlFor="budget" className="block text-sm text-white/60 mb-2">
-              Votre budget (en FCFA)
-            </label>
-            <input
-              id="budget"
-              type="text"
-              value={budget}
-              onChange={(e) => setBudget(e.target.value)}
-              placeholder="Ex: 500 000 - 800 000 FCFA"
-              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white
-                placeholder:text-white/30 focus:outline-none focus:border-[#02a3da]/50 focus:bg-white/8
-                transition-all duration-300"
-            />
-          </div>
+          <FloatingInput
+            label="Votre budget (en FCFA)"
+            type="text"
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+          />
         </div>
 
         {/* WhatsApp CTA button */}
@@ -238,11 +222,13 @@ export function ConversionSection() {
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-3 px-10 py-4 rounded-full text-base font-medium
               text-white bg-[#25D366] cursor-pointer overflow-hidden transition-all duration-300
-              hover:shadow-[0_0_40px_rgba(37,211,102,0.5)] hover:scale-105"
+              hover:shadow-[0_0_40px_rgba(37,211,102,0.5)] hover:scale-105 relative"
           >
-            <MessageCircle className="size-5 group-hover:rotate-12 transition-transform duration-300" />
-            <span>Envoyer via WhatsApp</span>
-            <Send className="size-4 group-hover:translate-x-1 transition-transform duration-300" />
+            {/* Shine effect */}
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+            <MessageCircle className="size-5 group-hover:rotate-12 transition-transform duration-300 relative z-10" />
+            <span className="relative z-10">Envoyer via WhatsApp</span>
+            <Send className="size-4 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
           </a>
         </div>
       </div>

@@ -40,6 +40,15 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
         { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" },
         "-=0.2"
       );
+
+      // Subtle pulse animation on logo
+      gsap.to(logoRef.current, {
+        scale: 1.02,
+        duration: 1.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
     });
     
     return () => ctx.revert();
@@ -80,7 +89,16 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
       aria-live="polite"
       role="status"
     >
-      <div ref={logoRef} className="mb-8 opacity-0">
+      {/* Background glow */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full opacity-20"
+        style={{
+          background: "radial-gradient(circle, rgba(2, 163, 218, 0.4) 0%, transparent 60%)",
+          filter: "blur(80px)",
+        }}
+      />
+
+      <div ref={logoRef} className="mb-8 opacity-0 relative z-10">
         <Image
           src="/logo.webp"
           alt="Dilitech"
@@ -91,17 +109,18 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
         />
       </div>
 
-      <div ref={progressRef} className="h-1 rounded-full bg-muted overflow-hidden opacity-0">
+      <div ref={progressRef} className="relative h-1.5 rounded-full bg-white/10 overflow-hidden opacity-0 z-10">
         <div
           className="h-full rounded-full transition-all duration-300 ease-out"
           style={{
             width: `${progress}%`,
             background: "var(--dilitech-gradient)",
+            boxShadow: "0 0 20px rgba(2, 163, 218, 0.5)",
           }}
         />
       </div>
 
-      <p ref={textRef} className="mt-4 text-sm text-muted-foreground opacity-0">
+      <p ref={textRef} className="mt-4 text-sm text-muted-foreground opacity-0 z-10">
         Chargement{progress < 100 ? `… ${progress}%` : " terminé"}
       </p>
     </div>

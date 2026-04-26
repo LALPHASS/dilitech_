@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import { gsap, ScrollTrigger } from "@/lib/animations";
 import { MapPin, Users, Award } from "lucide-react";
+import { StatCard } from "./ui/stat-card";
 
 const STATS = [
   { icon: MapPin, value: "Bamako", label: "Mali" },
@@ -177,39 +178,15 @@ export function AboutSection() {
           ref={statsRef}
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
-          {STATS.map((stat) => {
-            const Icon = stat.icon;
-            return (
-              <div
-                key={stat.label}
-                data-stat
-                className="group relative p-8 rounded-2xl text-center
-                  bg-white/3 border border-white/8 backdrop-blur-sm
-                  hover:bg-white/6 hover:border-white/15 transition-all duration-300 cursor-pointer"
-              >
-                {/* Icon */}
-                <div
-                  className="w-12 h-12 mx-auto mb-4 rounded-xl flex items-center justify-center
-                    bg-white/5 group-hover:scale-110 transition-transform duration-300"
-                >
-                  <Icon className="size-6 text-[#02a3da]" />
-                </div>
-
-                {/* Value */}
-                <div
-                  data-value
-                  className="text-3xl md:text-4xl font-bold text-white mb-2"
-                >
-                  {stat.value}
-                </div>
-
-                {/* Label */}
-                <div className="text-sm text-white/50">
-                  {stat.label}
-                </div>
-              </div>
-            );
-          })}
+          {STATS.map((stat) => (
+            <div key={stat.label} data-stat>
+              <StatCard
+                icon={stat.icon}
+                value={stat.value}
+                label={stat.label}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>

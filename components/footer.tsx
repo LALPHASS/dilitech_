@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { MessageCircle, Mail, Clock, MapPin, Phone } from "lucide-react";
 import { gsap, ScrollTrigger } from "@/lib/animations";
 
@@ -261,7 +262,7 @@ export function Footer() {
               Suivez-nous
             </h3>
             <div ref={socialRef} className="flex gap-2">
-              <a
+              <motion.a
                 href="https://facebook.com/dilitech"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -269,11 +270,13 @@ export function Footer() {
                 className="size-10 rounded-lg flex items-center justify-center
                   bg-white/5 border border-white/10 text-white/60
                   hover:bg-[#1877F2]/20 hover:text-[#1877F2] hover:border-[#1877F2]/30
-                  transition-all duration-300 cursor-pointer"
+                  transition-colors duration-300 cursor-pointer"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <FacebookIcon className="size-4" />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href="https://instagram.com/dilitech"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -281,11 +284,13 @@ export function Footer() {
                 className="size-10 rounded-lg flex items-center justify-center
                   bg-white/5 border border-white/10 text-white/60
                   hover:bg-[#E4405F]/20 hover:text-[#E4405F] hover:border-[#E4405F]/30
-                  transition-all duration-300 cursor-pointer"
+                  transition-colors duration-300 cursor-pointer"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <InstagramIcon className="size-4" />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href="https://x.com/dilitech"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -293,10 +298,12 @@ export function Footer() {
                 className="size-10 rounded-lg flex items-center justify-center
                   bg-white/5 border border-white/10 text-white/60
                   hover:bg-white/20 hover:text-white hover:border-white/30
-                  transition-all duration-300 cursor-pointer"
+                  transition-colors duration-300 cursor-pointer"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <XIcon className="size-4" />
-              </a>
+              </motion.a>
             </div>
           </div>
 

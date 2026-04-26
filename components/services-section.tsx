@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import { SERVICES } from "@/lib/constants";
 import { gsap, ScrollTrigger } from "@/lib/animations";
+import { ServiceCard } from "./ui/service-card";
 
 export function ServicesSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -211,55 +212,17 @@ export function ServicesSection() {
         <div
           ref={cardsRef}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
-          style={{ perspective: "1000px" }}
         >
-          {SERVICES.map((service, index) => {
-            const Icon = service.icon;
-            return (
-              <div
-                key={service.title}
-                data-card
-                className="group relative p-8 rounded-2xl cursor-pointer
-                  bg-white/3 border border-white/8
-                  backdrop-blur-sm transition-colors duration-300
-                  hover:bg-white/6 hover:border-white/15"
-                style={{ transformStyle: "preserve-3d" }}
-              >
-                {/* Glow effect on hover */}
-                <div
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{
-                    background: "radial-gradient(circle at 50% 0%, rgba(2, 163, 218, 0.15) 0%, transparent 60%)",
-                  }}
-                />
-
-                {/* Icon */}
-                <div
-                  data-icon
-                  className="relative w-16 h-16 rounded-2xl flex items-center justify-center mb-6
-                    shadow-lg shadow-cyan-500/20"
-                  style={{ background: "var(--dilitech-gradient)" }}
-                >
-                  <Icon className="size-8 text-white" />
-                </div>
-
-                {/* Content */}
-                <div data-content className="relative">
-                  <h3 className="text-xl font-semibold text-white mb-3">
-                    {service.title}
-                  </h3>
-                  <p className="text-white/60 leading-relaxed">
-                    {service.description}
-                  </p>
-                </div>
-
-                {/* Number indicator */}
-                <div className="absolute top-6 right-6 text-6xl font-bold text-white/3 select-none">
-                  {String(index + 1).padStart(2, "0")}
-                </div>
-              </div>
-            );
-          })}
+          {SERVICES.map((service, index) => (
+            <div key={service.title} data-card>
+              <ServiceCard
+                title={service.title}
+                description={service.description}
+                icon={service.icon}
+                index={index}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>
